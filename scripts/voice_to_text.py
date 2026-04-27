@@ -35,6 +35,7 @@ INITIAL_PROMPT = os.environ.get(
 )
 PASTE = os.environ.get("VTT_PASTE", "1") != "0"
 USE_GPU = os.environ.get("VTT_USE_GPU", "1") == "1"
+BEEP_ENABLED = os.environ.get("VTT_BEEP", "1") != "0"
 BEEP_VOLUME = os.environ.get("VTT_BEEP_VOLUME", "0.25")
 SIMPLIFY_CHINESE = os.environ.get("VTT_SIMPLIFY_CHINESE", "1") == "1"
 zh_converter = OpenCC("t2s") if SIMPLIFY_CHINESE else None
@@ -54,6 +55,8 @@ def log(message: str) -> None:
 
 
 def beep(name: str) -> None:
+    if not BEEP_ENABLED:
+        return
     sounds = {
         "start": "/System/Library/Sounds/Tink.aiff",
         "stop": "/System/Library/Sounds/Tink.aiff",
@@ -272,6 +275,7 @@ def main() -> None:
     log("voice-to-text daemon ready. Hold right Command to dictate.")
     log(f"Model: {MODEL_PATH}")
     log(f"GPU first: {USE_GPU}")
+    log(f"Beep enabled: {BEEP_ENABLED}")
     log("Target languages: Simplified Chinese, English, German, Spanish")
     log(f"Simplify Chinese: {SIMPLIFY_CHINESE}")
     log(f"Accessibility trusted: {trusted}")

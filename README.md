@@ -134,8 +134,15 @@ Environment variables:
 - `VTT_PASTE`: `1` to paste automatically, `0` to only copy. Default: `1`
 - `VTT_SAMPLE_RATE`: recording sample rate. Default: `16000`
 - `VTT_USE_GPU`: `1` to try Metal/GPU first. Default: `1`
+- `VTT_BEEP`: `1` to play prompt sounds, `0` to disable prompt sounds. Default: `1`
 - `VTT_BEEP_VOLUME`: sound effect volume. Default: `0.25`
 - `VTT_SIMPLIFY_CHINESE`: `1` to convert Traditional Chinese output to Simplified Chinese. Default: `1`
+
+Disable prompt sounds:
+
+```bash
+VTT_BEEP=0 ~/.codex/skills/voice-to-text/scripts/start.sh
+```
 
 If GPU transcription fails, the script retries on CPU automatically.
 
