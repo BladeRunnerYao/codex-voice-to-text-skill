@@ -225,7 +225,7 @@ def transcribe_and_paste(audio: np.ndarray) -> None:
 
 
 def on_press(key) -> None:
-    if key in (keyboard.Key.cmd_r, keyboard.Key.cmd):
+    if key == keyboard.Key.cmd_r:
         try:
             start_recording()
         except Exception as exc:
@@ -234,7 +234,7 @@ def on_press(key) -> None:
 
 
 def on_release(key) -> None:
-    if key in (keyboard.Key.cmd_r, keyboard.Key.cmd):
+    if key == keyboard.Key.cmd_r:
         try:
             stop_recording()
         except Exception as exc:

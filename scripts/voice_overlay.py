@@ -13,11 +13,14 @@ from AppKit import (
     NSBackingStoreBuffered,
     NSBezierPath,
     NSColor,
-    NSFloatingWindowLevel,
+    NSMainMenuWindowLevel,
     NSMakeRect,
     NSScreen,
     NSTimer,
     NSView,
+    NSWindowCollectionBehaviorCanJoinAllSpaces,
+    NSWindowCollectionBehaviorFullScreenAuxiliary,
+    NSWindowCollectionBehaviorStationary,
     NSWindow,
     NSWindowStyleMaskBorderless,
 )
@@ -92,9 +95,13 @@ class Controller(NSObject):
         )
         self.window.setOpaque_(False)
         self.window.setBackgroundColor_(NSColor.clearColor())
-        self.window.setLevel_(NSFloatingWindowLevel)
+        self.window.setLevel_(NSMainMenuWindowLevel + 2)
         self.window.setIgnoresMouseEvents_(True)
-        self.window.setCollectionBehavior_(1 << 7 | 1 << 0)
+        self.window.setCollectionBehavior_(
+            NSWindowCollectionBehaviorCanJoinAllSpaces
+            | NSWindowCollectionBehaviorFullScreenAuxiliary
+            | NSWindowCollectionBehaviorStationary
+        )
 
         self.view = WaveView.alloc().initWithFrame_(NSMakeRect(0, 0, WIDTH, HEIGHT))
         self.window.setContentView_(self.view)
