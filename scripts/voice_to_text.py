@@ -34,6 +34,7 @@ INITIAL_PROMPT = os.environ.get(
 )
 PASTE = os.environ.get("VTT_PASTE", "1") != "0"
 USE_GPU = os.environ.get("VTT_USE_GPU", "1") == "1"
+BEEP_VOLUME = os.environ.get("VTT_BEEP_VOLUME", "0.25")
 
 recording = threading.Event()
 busy = threading.Event()
@@ -51,12 +52,16 @@ def log(message: str) -> None:
 
 def beep(name: str) -> None:
     sounds = {
-        "start": "/System/Library/Sounds/Ping.aiff",
-        "stop": "/System/Library/Sounds/Ping.aiff",
+        "start": "/System/Library/Sounds/Tink.aiff",
+        "stop": "/System/Library/Sounds/Tink.aiff",
         "done": "/System/Library/Sounds/Pop.aiff",
         "error": "/System/Library/Sounds/Basso.aiff",
     }
-    subprocess.run(["afplay", sounds[name]], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run(
+        ["afplay", "-v", BEEP_VOLUME, sounds[name]],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
 
 
 def start_overlay() -> None:
