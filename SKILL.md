@@ -50,6 +50,7 @@ Environment variables accepted by `voice_to_text.py`:
 - `VTT_PASTE`: `1` to paste into the active app, `0` to only copy to clipboard. Default: `1`.
 - `VTT_SAMPLE_RATE`: recording sample rate. Default: `16000`.
 - `VTT_USE_GPU`: `1` to allow whisper.cpp Metal/GPU. Default: `1`. If Metal fails, the daemon retries on CPU automatically.
+- `VTT_BEEP_VOLUME`: start/stop/done/error sound volume for `afplay`. Default: `0.25`.
 
 ## Troubleshooting
 
