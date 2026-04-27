@@ -10,19 +10,22 @@ import time
 import objc
 from AppKit import (
     NSApplication,
+    NSApplicationActivationPolicyAccessory,
     NSBackingStoreBuffered,
     NSBezierPath,
     NSColor,
-    NSMainMenuWindowLevel,
     NSMakeRect,
+    NSPanel,
     NSScreen,
+    NSScreenSaverWindowLevel,
     NSTimer,
     NSView,
     NSWindowCollectionBehaviorCanJoinAllSpaces,
     NSWindowCollectionBehaviorFullScreenAuxiliary,
+    NSWindowCollectionBehaviorIgnoresCycle,
     NSWindowCollectionBehaviorStationary,
-    NSWindow,
     NSWindowStyleMaskBorderless,
+    NSWindowStyleMaskNonactivatingPanel,
 )
 from Foundation import NSObject
 
@@ -87,19 +90,21 @@ class Controller(NSObject):
         y = screen.origin.y + 72
         frame = NSMakeRect(x, y, WIDTH, HEIGHT)
 
-        self.window = NSWindow.alloc().initWithContentRect_styleMask_backing_defer_(
+        self.window = NSPanel.alloc().initWithContentRect_styleMask_backing_defer_(
             frame,
-            NSWindowStyleMaskBorderless,
+            NSWindowStyleMaskBorderless | NSWindowStyleMaskNonactivatingPanel,
             NSBackingStoreBuffered,
             False,
         )
         self.window.setOpaque_(False)
         self.window.setBackgroundColor_(NSColor.clearColor())
-        self.window.setLevel_(NSMainMenuWindowLevel + 2)
+        self.window.setLevel_(NSScreenSaverWindowLevel + 1)
         self.window.setIgnoresMouseEvents_(True)
+        self.window.setHidesOnDeactivate_(False)
         self.window.setCollectionBehavior_(
             NSWindowCollectionBehaviorCanJoinAllSpaces
             | NSWindowCollectionBehaviorFullScreenAuxiliary
+            | NSWindowCollectionBehaviorIgnoresCycle
             | NSWindowCollectionBehaviorStationary
         )
 
@@ -148,6 +153,7 @@ def demo_feeder() -> None:
 
 def main() -> None:
     app = NSApplication.sharedApplication()
+    app.setActivationPolicy_(NSApplicationActivationPolicyAccessory)
     controller = Controller.alloc().init()
     app.setDelegate_(controller)
     if "--demo" in sys.argv:
