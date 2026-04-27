@@ -1,0 +1,7 @@
+interface:
+  display_name: "Voice To Text"
+  short_description: "Local Whisper push-to-talk dictation"
+  default_prompt: "Use $voice-to-text to start local push-to-talk dictation."
+
+policy:
+  allow_implicit_invocation: true
