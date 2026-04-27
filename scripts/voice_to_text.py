@@ -28,6 +28,10 @@ TMP_DIR.mkdir(exist_ok=True)
 SAMPLE_RATE = int(os.environ.get("VTT_SAMPLE_RATE", "16000"))
 MODEL_PATH = Path(os.environ.get("VTT_MODEL_PATH", ROOT / "models" / "ggml-tiny.bin"))
 LANGUAGE = os.environ.get("VTT_LANGUAGE", "auto")
+INITIAL_PROMPT = os.environ.get(
+    "VTT_INITIAL_PROMPT",
+    "Dictation may be in Chinese, English, German, or Spanish.",
+)
 PASTE = os.environ.get("VTT_PASTE", "1") != "0"
 USE_GPU = os.environ.get("VTT_USE_GPU", "1") == "1"
 
@@ -179,6 +183,8 @@ def run_whisper(whisper_bin: str, wav_path: Path, out_base: Path, model_path: Pa
         "-l",
         LANGUAGE,
     ]
+    if INITIAL_PROMPT:
+        cmd.extend(["--prompt", INITIAL_PROMPT])
     if not use_gpu:
         cmd.insert(1, "-ng")
     log(f"Transcribing with whisper.cpp ({model_path.name}, {'GPU' if use_gpu else 'CPU'})")
@@ -256,6 +262,7 @@ def main() -> None:
     log("voice-to-text daemon ready. Hold right Command to dictate.")
     log(f"Model: {MODEL_PATH}")
     log(f"GPU first: {USE_GPU}")
+    log("Target languages: Chinese, English, German, Spanish")
     log(f"Accessibility trusted: {trusted}")
     if not trusted:
         log("Grant Accessibility permission to this Python.app, then run stop voice to text and start voice to text.")
