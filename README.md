@@ -4,7 +4,7 @@ Local macOS push-to-talk dictation for Codex, powered by `whisper.cpp`.
 
 Hold the right Command key to record. Release it to transcribe. The result is copied to the clipboard and pasted into the active app. While recording, a small waveform overlay appears near the bottom center of the screen.
 
-The default local setup is tuned for Chinese, English, German, and Spanish dictation.
+The personal four-language branch is tuned for Simplified Chinese, English, German, and Spanish dictation.
 
 ## Requirements
 
@@ -130,11 +130,12 @@ Environment variables:
 - `VTT_MODEL_PATH`: model path. Default: `models/ggml-tiny.bin`
 - `VTT_WHISPER_BIN`: custom `whisper-cli` path
 - `VTT_LANGUAGE`: language hint. Default: `auto`
-- `VTT_INITIAL_PROMPT`: Whisper prompt. Default: `Dictation may be in Chinese, English, German, or Spanish.`
+- `VTT_INITIAL_PROMPT`: Whisper prompt. Default: `Dictation may be in Simplified Chinese, English, German, or Spanish.`
 - `VTT_PASTE`: `1` to paste automatically, `0` to only copy. Default: `1`
 - `VTT_SAMPLE_RATE`: recording sample rate. Default: `16000`
 - `VTT_USE_GPU`: `1` to try Metal/GPU first. Default: `1`
 - `VTT_BEEP_VOLUME`: sound effect volume. Default: `0.25`
+- `VTT_SIMPLIFY_CHINESE`: `1` to convert Traditional Chinese output to Simplified Chinese. Default: `1`
 
 If GPU transcription fails, the script retries on CPU automatically.
 

@@ -32,7 +32,7 @@ scripts/start.sh
 - Release the right Command key to stop recording.
 - The daemon plays an end sound, transcribes with local Whisper, copies the text to the clipboard, and pastes it into the active app.
 - The default model is `tiny` with GPU/Metal attempted first. This is the safest low-latency default for Apple Silicon hotkey dictation. Use `small` for better accuracy if GPU/latency is acceptable.
-- The default language mode is auto-detect, tuned for Chinese, English, German, and Spanish dictation.
+- The default language mode is auto-detect, tuned for Simplified Chinese, English, German, and Spanish dictation.
 
 ## Requirements
 
@@ -48,11 +48,12 @@ Environment variables accepted by `voice_to_text.py`:
 - `VTT_MODEL_PATH`: absolute model path. Default: `models/ggml-tiny.bin`.
 - `VTT_WHISPER_BIN`: whisper.cpp binary. Default: auto-detect `whisper-cli`, `whisper-cpp`, or Homebrew paths.
 - `VTT_LANGUAGE`: language hint. Default: `auto`.
-- `VTT_INITIAL_PROMPT`: optional Whisper prompt. Default: `Dictation may be in Chinese, English, German, or Spanish.`
+- `VTT_INITIAL_PROMPT`: optional Whisper prompt. Default: `Dictation may be in Simplified Chinese, English, German, or Spanish.`
 - `VTT_PASTE`: `1` to paste into the active app, `0` to only copy to clipboard. Default: `1`.
 - `VTT_SAMPLE_RATE`: recording sample rate. Default: `16000`.
 - `VTT_USE_GPU`: `1` to allow whisper.cpp Metal/GPU. Default: `1`. If Metal fails, the daemon retries on CPU automatically.
 - `VTT_BEEP_VOLUME`: start/stop/done/error sound volume for `afplay`. Default: `0.25`.
+- `VTT_SIMPLIFY_CHINESE`: `1` to convert Traditional Chinese output to Simplified Chinese. Default: `1`.
 
 ## Troubleshooting
 

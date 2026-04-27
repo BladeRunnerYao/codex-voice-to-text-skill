@@ -14,6 +14,7 @@ import time
 from pathlib import Path
 
 import numpy as np
+from opencc import OpenCC
 import pyperclip
 import sounddevice as sd
 from ApplicationServices import AXIsProcessTrustedWithOptions, kAXTrustedCheckOptionPrompt
@@ -30,11 +31,13 @@ MODEL_PATH = Path(os.environ.get("VTT_MODEL_PATH", ROOT / "models" / "ggml-tiny.
 LANGUAGE = os.environ.get("VTT_LANGUAGE", "auto")
 INITIAL_PROMPT = os.environ.get(
     "VTT_INITIAL_PROMPT",
-    "Dictation may be in Chinese, English, German, or Spanish.",
+    "Dictation may be in Simplified Chinese, English, German, or Spanish.",
 )
 PASTE = os.environ.get("VTT_PASTE", "1") != "0"
 USE_GPU = os.environ.get("VTT_USE_GPU", "1") == "1"
 BEEP_VOLUME = os.environ.get("VTT_BEEP_VOLUME", "0.25")
+SIMPLIFY_CHINESE = os.environ.get("VTT_SIMPLIFY_CHINESE", "1") == "1"
+zh_converter = OpenCC("t2s") if SIMPLIFY_CHINESE else None
 
 recording = threading.Event()
 busy = threading.Event()
@@ -219,6 +222,8 @@ def transcribe_and_paste(audio: np.ndarray) -> None:
         if not text:
             log("No speech recognized")
             return
+        if zh_converter:
+            text = zh_converter.convert(text)
         pyperclip.copy(text)
         log(f"Transcribed: {text}")
         if PASTE:
@@ -267,7 +272,8 @@ def main() -> None:
     log("voice-to-text daemon ready. Hold right Command to dictate.")
     log(f"Model: {MODEL_PATH}")
     log(f"GPU first: {USE_GPU}")
-    log("Target languages: Chinese, English, German, Spanish")
+    log("Target languages: Simplified Chinese, English, German, Spanish")
+    log(f"Simplify Chinese: {SIMPLIFY_CHINESE}")
     log(f"Accessibility trusted: {trusted}")
     if not trusted:
         log("Grant Accessibility permission to this Python.app, then run stop voice to text and start voice to text.")

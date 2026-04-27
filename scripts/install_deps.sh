@@ -9,6 +9,6 @@ if [ ! -d "$VENV" ]; then
 fi
 
 "$VENV/bin/python" -m pip install --upgrade pip
-"$VENV/bin/python" -m pip install sounddevice pynput pyperclip numpy scipy
+"$VENV/bin/python" -m pip install sounddevice pynput pyperclip numpy scipy opencc-python-reimplemented
 
 echo "Installed voice-to-text Python dependencies into $VENV"
