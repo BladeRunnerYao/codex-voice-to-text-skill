@@ -53,6 +53,8 @@ cat > "$PLIST" <<PLIST
   <dict>
     <key>PATH</key>
     <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>VTT_BEEP</key>
+    <string>0</string>
   </dict>
   <key>LimitLoadToSessionType</key>
   <string>Aqua</string>
