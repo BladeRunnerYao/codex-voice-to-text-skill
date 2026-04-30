@@ -58,6 +58,31 @@ Environment variables accepted by `voice_to_text.py`:
 
 ## Troubleshooting
 
-- If hotkey presses are ignored, grant Accessibility permission to the terminal/Codex app in System Settings.
-- If recording fails, grant Microphone permission and restart the service.
-- If transcription says the model file is missing, download a GGML model from `https://ggml.ggerganov.com/` into `models/`.
+### Hotkey not responding (right Command key does nothing)
+
+Check status first: `bash scripts/status.sh`. If the log says `Accessibility trusted: False`, follow these steps:
+
+1. Open Accessibility settings:
+   ```bash
+   open "x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_Accessibility"
+   ```
+2. Click the **+** button, press **Cmd+Shift+G**, paste the path:
+   ```
+   /Users/yao/.claude/skills/voice-to-text/.venv/bin/python
+   ```
+3. Click **Open**, ensure the checkbox is toggled on.
+4. Restart the service:
+   ```bash
+   bash scripts/stop.sh && sleep 2 && bash scripts/start.sh
+   ```
+5. Verify with `bash scripts/status.sh` — should show `Accessibility trusted: True`.
+
+This permission persists across reboots. Only needs re-granting if the venv is rebuilt (e.g., `scripts/install_deps.sh`).
+
+### Recording fails
+
+Grant Microphone permission in System Settings > Privacy & Security > Microphone, then restart the service.
+
+### Model file missing
+
+Download a GGML model from `https://ggml.ggerganov.com/` into `models/`.

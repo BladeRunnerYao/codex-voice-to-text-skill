@@ -27,6 +27,7 @@ TMP_DIR = ROOT / "tmp"
 TMP_DIR.mkdir(exist_ok=True)
 
 SAMPLE_RATE = int(os.environ.get("VTT_SAMPLE_RATE", "16000"))
+DEVICE = os.environ.get("VTT_DEVICE")
 MODEL_PATH = Path(os.environ.get("VTT_MODEL_PATH", ROOT / "models" / "ggml-tiny.bin"))
 LANGUAGE = os.environ.get("VTT_LANGUAGE", "auto")
 INITIAL_PROMPT = os.environ.get(
