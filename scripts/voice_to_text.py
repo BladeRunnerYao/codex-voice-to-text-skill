@@ -36,6 +36,7 @@ INITIAL_PROMPT = os.environ.get(
 )
 PASTE = os.environ.get("VTT_PASTE", "1") != "0"
 USE_GPU = os.environ.get("VTT_USE_GPU", "1") == "1"
+REQUIRE_GPU = os.environ.get("VTT_REQUIRE_GPU", "0") == "1"
 BEEP_ENABLED = os.environ.get("VTT_BEEP", "1") != "0"
 BEEP_VOLUME = os.environ.get("VTT_BEEP_VOLUME", "0.25")
 SIMPLIFY_CHINESE = os.environ.get("VTT_SIMPLIFY_CHINESE", "1") == "1"
@@ -216,7 +217,7 @@ def transcribe_and_paste(audio: np.ndarray) -> None:
             out_base = Path(work) / "speech"
             wavfile.write(wav_path, SAMPLE_RATE, audio_i16)
             result = run_whisper(whisper_bin, wav_path, out_base, MODEL_PATH, USE_GPU)
-            if result.returncode != 0 and USE_GPU:
+            if result.returncode != 0 and USE_GPU and not REQUIRE_GPU:
                 log("GPU transcription failed; retrying on CPU")
                 result = run_whisper(whisper_bin, wav_path, out_base, MODEL_PATH, False)
             if result.returncode != 0:
@@ -276,6 +277,7 @@ def main() -> None:
     log("voice-to-text daemon ready. Hold right Command to dictate.")
     log(f"Model: {MODEL_PATH}")
     log(f"GPU first: {USE_GPU}")
+    log(f"GPU required: {REQUIRE_GPU}")
     log(f"Beep enabled: {BEEP_ENABLED}")
     log("Target languages: Simplified Chinese, English, German, Spanish")
     log(f"Simplify Chinese: {SIMPLIFY_CHINESE}")

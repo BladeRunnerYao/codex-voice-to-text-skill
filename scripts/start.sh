@@ -20,6 +20,8 @@ fi
 mkdir -p "$ROOT/models" "$ROOT/tmp"
 
 MODEL_PATH="${VTT_MODEL_PATH:-$ROOT/models/ggml-tiny.bin}"
+VTT_USE_GPU_VALUE="${VTT_USE_GPU:-1}"
+VTT_REQUIRE_GPU_VALUE="${VTT_REQUIRE_GPU:-0}"
 if [ ! -f "$MODEL_PATH" ]; then
   echo "Missing Whisper model: $MODEL_PATH"
   echo "Download one first, for example:"
@@ -55,6 +57,12 @@ cat > "$PLIST" <<PLIST
     <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
     <key>VTT_BEEP</key>
     <string>0</string>
+    <key>VTT_MODEL_PATH</key>
+    <string>$MODEL_PATH</string>
+    <key>VTT_USE_GPU</key>
+    <string>$VTT_USE_GPU_VALUE</string>
+    <key>VTT_REQUIRE_GPU</key>
+    <string>$VTT_REQUIRE_GPU_VALUE</string>
   </dict>
   <key>LimitLoadToSessionType</key>
   <string>Aqua</string>
